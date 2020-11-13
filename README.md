@@ -10,6 +10,6 @@ This data set is a sociopolitical and wealth descriptor set of data surrounding 
 
 I produced an initial pairplot, using the Python package seabornplot, to look at the relationships before attempting any classification methods because it is important to do a quick scan of the covariates to detemine if there are any already visible and clear relationships. Since pairplots tend to be quite computationally expensive, to replicate this analysis I would only recommend doing so on a publicly or privately provided compuational network such as William and Mary's Jupyter-Hub. The pairplot is provided below, it demonstrates some strong correlative relationships which indicate that an analysis on this data set will most likely be fruitful. 
 #### Image 1: Pairplot of Liberia's Covariates
-<img src="Paiplot.png" width="200">
+<img src="Paiplot.png" width="400">
 
 
