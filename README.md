@@ -16,3 +16,11 @@ I also produced an initial heatmap of the data set in order to vizualize possibl
 #### Image 2: Heatmap of Liberia's Covariates
 <img src="Heatmap.png" width = "500">
 
+In addition to these, my final method of viewing the data pre-regression was to produce a histogram with all the different covariates layered on to look for any other visible trends. I began, initially, with simply plotting the dataset. I had to modify the number of bins, the width of the bars, the legends, and the opacity of each of the layers to produce a readible plot. 
+#### Image 3: Histogram of Liberia's Covariates
+<img src = "Unscaled_Histogram.png" width = "500">
+
+This plot, however, was largely overtaken by the existance of the 'age' column which has a strong tendancy to pull the graph right due to the temporal aspect of this particular covariate. To combat this, and to partially visualize what the standardized data which I will be using later in the analysis will look like, I standardized that dataset, and replotted it onto the histogram. I removed an additional outlier to the right at around x = 12 (which is still related to the age's temporal aspect) and adjusted the bins accordingly for a hopefully clearer histogram
+#### Image 4: Scaled Histogram of Liberia's Covariates
+<img src = "Scaled_Histogram.png" width = "500">
+
