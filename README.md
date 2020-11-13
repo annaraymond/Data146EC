@@ -13,5 +13,6 @@ I produced an initial pairplot, using the Python package seabornplot, to look at
 <img src="Paiplot.png" width="500">
 
 I also produced an initial heatmap of the data set in order to vizualize possible and existing correlations, simply in a different manner. An important note, on this heatmap the diagonal line sloping downwards and right is not indicative of a strong correlation between two separate covariates. It is simply the heatmap comparing the variable to itself. Other than that, the more intense the color, the stronger the correlation. If the color is red, it signifies a positive correlation. If the color is blue, it signifies a negative correlation. Both of these relationships can be helpful in the ultimate analysis of this dataset.
+#### Image 2: Heatmap of Liberia's Covariates
 <img src="Heatmap.png" width = "500">
 
