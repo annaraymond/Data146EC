@@ -49,6 +49,13 @@ As a third attempt to classify this dataset I ran a Decision Tree classifier on 
 #### Image 5: Max Depth Accuracies  
  <img src = "Max_depthh.png" width = "500">
  
+## Random Forest Regressor 
+As a final attempt to classify this dataset, I ran a Random Forest Regression. For the max depth hyper parameter, at the best accuracy I got a depth of 9 and an accuracy of .72
+Building upon this, I used the max depth of 7 to test the n_estimators (or the number of bootstrapped trees) in the random forest. The depth of 9 with 300 trees was the most accurate at .7219 which is a little better than just the depth hyperparameter but not my much. Finally, I ran this through a K Fold validation (using the same number of K Folds as I have been throughout this) and got an accuracy of .73082. 
+
+## Conclusion 
+This dataset proved to be interesting and with high correlative tendancies especially for a dataset which is not fixed or randomly generated. Real world data, such as this set, is extraordinarily difficult to work with- there are always missing values, incomplete tables, false reports, and complications which lead to regressions and classifications which don't make sense. Data science, and its unequivocable properties of finding complex relationships, is fundamentally built off of this complexity. If data sets were perfect, data science would not be a required field. That being said, this data set was relatively simple to work with. The highest accuracy I could find was in the low to mid seventies, which is fairly accurate for this type of analysis. Ultimately, and moving foreward, I would like to look at the relationship Libera and it's covariates have with its neighbors- both geopolitically and socioeconomically. Do these trends continue across borders? Does legislation impact these trends? If so, how can we use legislation and the resulting political boundaries to better the target (in this instance, education)? A classificatory approach is only the beginning of delving into the positive, negative, and correlative relationships which provide the basis of a useful analysis. 
+ 
 
 
 
