@@ -47,7 +47,7 @@ I ran a K Fold validation on this same instance of the best KNN accuracy, and I 
 ## Decision Tree Classifier 
 As a third attempt to classify this dataset I ran a Decision Tree classifier on this dataset with all the preprocessing scalers I have been using. I generally found my models to be more accurate when I modified the max depth. The highest accuracy I got was .72094 on the unscaled dataset with K fold validation of 15 and a max depth of 5. Scaling datasets does not appear to affect decision trees that much (simply because of the binary search-like structure of the tree). I also created a graph of the these max depths and the accuracies to demonstrate which max depth I picked and why. 
 #### Image 5: Max Depth Accuracies  
- <img src = "Max_depth.png" width = "500">
+ <img src = "Max_depthh.png" width = "500">
  
 
 
