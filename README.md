@@ -20,7 +20,33 @@ In addition to these, my final method of viewing the data pre-regression was to 
 #### Image 3: Histogram of Liberia's Covariates
 <img src = "Unscaled_Histogram.png" width = "500">
 
-This plot, however, was largely overtaken by the existance of the 'age' column which has a strong tendancy to pull the graph right due to the temporal aspect of this particular covariate. To combat this, and to partially visualize what the standardized data which I will be using later in the analysis will look like, I standardized that dataset, and replotted it onto the histogram. I removed an additional outlier to the right at around x = 12 (which is still related to the age's temporal aspect) and adjusted the bins accordingly for a hopefully clearer histogram
+This plot, however, was largely overtaken by the existance of the 'age' column which has a strong tendancy to pull the graph right due to the temporal aspect of this particular covariate. To combat this, and to partially visualize what the standardized data which I will be using later in the analysis will look like, I standardized that dataset, and replotted it onto the histogram. I removed an additional outlier to the right at around x = 12 (which is still related to the age's temporal aspect) and adjusted the bins accordingly for a hopefully clearer histogram.
 #### Image 4: Scaled Histogram of Liberia's Covariates
 <img src = "Scaled_Histogram.png" width = "500">
+
+## Logistic Regression - the initial classifer 
+To begin to attempt to classify educaiton through the existance of the other features, I used a logistic regression. Simply running the regression without any changes in the standardization of the data or the hyperparameters of the logistic regression gives us an accuracy of .57025. This is not a bad jumping off point and is highly indicative of the trends seen above in the pre analysis analysis. 
+ 
+### Standard Scaler 
+I, again ran the logistic regression, except this time on the standard scaler feature available from the sklearn.preprocessing library. This yielded a slightly better accuracy of .57030. While this is better, it is nowhere near enough of a positive increase in accuracy to deem this form of standardization useful 
+
+### MinMax Scaler 
+Once again, I ran the logistic regression on the same data but using the MinMaxScaler feature also available from the sklearn.preprocessing library. This created a worse outpyt of .5701 accuracy therby indicating that I could retire the MinMaxScaler from use for the rest of the analysis on this dataset
+
+### Normalizer 
+I ran the logistic regression with a normalizer as well, also available from the sklearn.preprocessing library. This attempt at preprocessing the data yielded an accuracy of .64652, the highest so far by a LOT considering the only aspect of the regression that I changed was the preprocessing. 
+
+### Robust Scaler 
+Finally, I tested the logistic regression with a robust scaler and it produced around the same accuracy as the other preprocessing methods. Because of this, I used the Normalizer as my scaler for the rest of the analysis that I did on this data set. 
+
+
+
+
+
+
+
+
+
+
+
 
