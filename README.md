@@ -21,7 +21,7 @@ In addition to these, my final method of viewing the data pre-regression was to 
 <img src = "Unscaled_Histogram.png" width = "500">
 
 This plot, however, was largely overtaken by the existance of the 'age' column which has a strong tendancy to pull the graph right due to the temporal aspect of this particular covariate. To combat this, and to partially visualize what the standardized data which I will be using later in the analysis will look like, I standardized that dataset, and replotted it onto the histogram. I removed an additional outlier to the right at around x = 12 (which is still related to the age's temporal aspect) and adjusted the bins accordingly for a hopefully clearer histogram.
-#### Image 4: Scaled Histogram of Liberia's Covariates
+#### Image 4: Scaled Histogram of Liberia's 40 
 <img src = "Scaled_Histogram.png" width = "500">
 
 ## Logistic Regression - the initial classifer 
@@ -37,7 +37,17 @@ Once again, I ran the logistic regression on the same data but using the MinMaxS
 I ran the logistic regression with a normalizer as well, also available from the sklearn.preprocessing library. This attempt at preprocessing the data yielded an accuracy of .64652, the highest so far by a LOT considering the only aspect of the regression that I changed was the preprocessing. 
 
 ### Robust Scaler 
-Finally, I tested the logistic regression with a robust scaler and it produced around the same accuracy as the other preprocessing methods. Because of this, I used the Normalizer as my scaler for the rest of the analysis that I did on this data set. 
+Finally, I tested the logistic regression with a robust scaler and it produced around the same accuracy as the other preprocessing methods. Even though these different scalers provided different accuracies, I still tested all of them for other models because different preprocessing methods function better for different models
+
+## KNN Classification 
+As a second attempt to classify this dataset I ran a K nearest neighbors model validation on this dataset with all the scalers mentioned above. To accomplish this I tested a range of K neighbors to find the best fit for the scaled and unscaled dataset. While looping through, I appended the accuracies and found the maximum accuracy for whichever argument of neighbor that was. The best KNN accuracy was .709. This was achieved through using a MinMaxScaler and 40 neighbors. 
+### K- Fold Validation 
+I ran a K Fold validation on this same instance of the best KNN accuracy, and I got an accuracy of 
+
+## Decision Tree Classifier 
+
+
+
 
 
 
