@@ -133,24 +133,24 @@ def CompareClasses(actual, predicted, names=None):
     print('Accuracy = ' + format(accuracy, '.6f'))
     return conf_mat, accuracy
 
-
+#import and separate data 
 dataframe = pd.read_csv('lbr_persons.csv')
-
 y = dataframe['education']
-
 X = dataframe.drop(columns = ['education', 'Unnamed: 0'])
-
 X
 
+#pairplot
 import seaborn as sns
 sns.pairplot(X[['location', 'size', 'wealth', 'gender', 'age']])
 plt.savefig('Paiplot.png')
 
+#heatmap
 cols=['location', 'size', 'wealth', 'gender', 'age']
 corr_matrix=np.corrcoef(X[cols], rowvar=False)
 sns.heatmap(corr_matrix, xticklabels=cols, yticklabels=cols, vmin=-1, vmax=1, cmap='seismic', annot=True, fmt='.2f')
 plt.savefig('Heatmap.png')
 
+#initial histogram
 my_bins = 9
 plt.hist(X['location'], label='Location', bins=my_bins, alpha=.5, rwidth=.9)
 plt.hist(X['size'], label='Size', bins=my_bins, alpha=.5, rwidth=.9)
@@ -160,10 +160,12 @@ plt.hist(X['age'], label='Age', bins=my_bins, alpha=.5, rwidth=.9)
 plt.legend()
 plt.savefig('Unscaled_Histogram.png')
 
+#scaled histogram
 from sklearn.preprocessing import StandardScaler as SS
 my_bins = 6
 ss = SS()
 Xscaled = ss.fit_transform(X)
+Xscaled_df = pd.DataFrame(Xscaled, columns = cols)
 plt.hist(Xscaled_df['location'], label='Location', bins=my_bins, alpha=.5, rwidth=.9)
 plt.hist(Xscaled_df['size'], label='Size', bins=my_bins, alpha=.5, rwidth=.9)
 plt.hist(Xscaled_df['wealth'], label='Wealth', bins=my_bins, alpha=.5, rwidth=.9)
@@ -173,10 +175,6 @@ plt.xlim(-2, 5)
 plt.legend()
 plt.savefig('Scaled_Histogram.png')
 
-Xscaled_df = pd.DataFrame(Xscaled, columns = cols)
-
-Xscaled_df['size']
-
 
 
 #logistic regression
@@ -185,19 +183,14 @@ from sklearn.model_selection import train_test_split as tts
 from sklearn.linear_model import LogisticRegression as LR
 
 Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
-
 # Fit the model
 log_reg= LR(max_iter = 2000)
 log_reg.fit(Xtrain,ytrain)
-
 # Predict y for the test set
 y_pred = log_reg.predict(Xtest)
-
 # Look at the confusion matrix
 CompareClasses(ytest,y_pred)
 
-from sklearn.metrics import accuracy_score
-accuracy_score(ytest, y_pred)
 
 # Standardize the data
     #standard scaler
@@ -206,13 +199,11 @@ Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
 ss = SS()
 Xtrain = ss.fit_transform(Xtrain)
 Xtest = ss.transform(Xtest)
-
 log_reg= LR(max_iter = 2000)
 log_reg.fit(Xtrain,ytrain)
 y_pred = log_reg.predict(Xtest)
-
 CompareClasses(ytest,y_pred)
-#took less iterations to get there, slightly better but you can't really tell
+
 
 #minmax
 from sklearn.preprocessing import MinMaxScaler as mms
@@ -220,13 +211,11 @@ minmax= mms()
 Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
 Xtrain = minmax.fit_transform(Xtrain)
 Xtest = minmax.transform(Xtest)
-
 log_reg= LR(max_iter = 2000)
 log_reg.fit(Xtrain,ytrain)
 y_pred = log_reg.predict(Xtest)
-
 CompareClasses(ytest,y_pred)
-#.5701 this is the worst one so far
+
 
 #normalizer
 from sklearn.preprocessing import Normalizer as NM
@@ -234,53 +223,40 @@ nm = NM()
 Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
 Xtrain = nm.fit_transform(Xtrain)
 Xtest = nm.transform(Xtest)
-
 log_reg= LR(max_iter = 2000)
 log_reg.fit(Xtrain,ytrain)
 y_pred = log_reg.predict(Xtest)
-
 CompareClasses(ytest,y_pred)
-#best one so far at 65%
+
 
 #robust scaler
 from sklearn.preprocessing import RobustScaler as RS
 rs = RS()
-
 Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
 Xtrain = rs.fit_transform(Xtrain)
 Xtest = rs.transform(Xtest)
-
 log_reg= LR(max_iter = 2000)
 log_reg.fit(Xtrain,ytrain)
 y_pred = log_reg.predict(Xtest)
-
 CompareClasses(ytest,y_pred)
-#same thing as the minmax scaler
 
 
 
 from sklearn.neighbors import KNeighborsClassifier as KNN
-
 #KNN model
-k_range = np.arange(1,50,1) #max = 38 for k neighbors
+k_range = np.arange(1,50,1) 
 # Keep track of the overall accuracy on both training and testing data
 train=[]
 test=[]
 acc = []
-
 Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
 for k in k_range:
     knn = KNN(n_neighbors = k)
     knn.fit(Xtrain,ytrain)
     y_pred = knn.predict(Xtest)
     acc.append(CompareClasses(ytest,y_pred)[1])
-#accuracy = 0.6978432185815014 with 38 nearest neighbors
 max(acc)
 np.argmax(acc)
-
-tr,te,_,_ = DoKFold(knn,X.values,y,k=38)
-#0.7297084318360915
-
 
 
 #knn with standard scaler
@@ -288,36 +264,28 @@ Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
 ss = SS()
 Xtrain = ss.fit_transform(Xtrain)
 Xtest = ss.transform(Xtest)
-
-k_range = np.arange(1,50,1) #max = 38 for k neighbors
-# Keep track of the overall accuracy on both training and testing data
+k_range = np.arange(1,50,1)
 train=[]
 test=[]
 acc = []
-
 for k in k_range:
     knn = KNN(n_neighbors = k)
     knn.fit(Xtrain,ytrain)
     y_pred = knn.predict(Xtest)
     acc.append(CompareClasses(ytest,y_pred)[1])
+max(acc)
 np.argmax(acc)
-#0.7013168809622563, 16
 
-tr,te,_,_ = DoKFold(knn,X.values,y,k=16, scaler = SS())
-print(max(te)) #0.7173191771731918
 
 #knn with minmax
 minmax= mms()
 Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
 Xtrain = minmax.fit_transform(Xtrain)
 Xtest = minmax.transform(Xtest)
-
-k_range = np.arange(1,50,1) #max = 38 for k neighbors
-# Keep track of the overall accuracy on both training and testing data
+k_range = np.arange(1,50,1)
 train=[]
 test=[]
 acc = []
-
 for k in k_range:
     knn = KNN(n_neighbors = k)
     knn.fit(Xtrain,ytrain)
@@ -327,26 +295,21 @@ print(max(acc))
 print(np.argmax(acc))
 #0.709301119867275, 40
 
-from sklearn.preprocessing import MinMaxScaler as mms
-from sklearn.neighbors import KNeighborsClassifier as KNN
+#Kfold on above
 knn = KNN(n_neighbors = 40)
 tr,te,_,_ = DoKFold(knn,X.values,y,k=10, scaler = mms())
 print(max(te))
-#0.7676348547717843
-#0.7229365408544173
+
 
 #knn with normalizer 
 nm = NM()
 Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
 Xtrain = nm.fit_transform(Xtrain)
 Xtest = nm.transform(Xtest)
-
-k_range = np.arange(1,50,1) #max = 38 for k neighbors
-# Keep track of the overall accuracy on both training and testing data
+k_range = np.arange(1,50,1) 
 train=[]
 test=[]
 acc = []
-
 for k in k_range:
     knn = KNN(n_neighbors = k)
     knn.fit(Xtrain,ytrain)
@@ -354,12 +317,6 @@ for k in k_range:
     acc.append(CompareClasses(ytest,y_pred)[1])
 print(max(acc))
 print(np.argmax(acc))
-#0.6656470344255495, 27
-
-tr,te,_,_ = DoKFold(knn,X.values,y,k=27, scaler = NM())
-print(max(te))
-#0.6970884658454647
-
 
 
 #knn with robust scaler
@@ -367,10 +324,7 @@ rs = RS()
 Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
 Xtrain = rs.fit_transform(Xtrain)
 Xtest = rs.transform(Xtest)
-
-k_range = np.arange(1,50,1) #max = 38 for k neighbors
-# Keep track of the overall accuracy on both training and testing data
-
+k_range = np.arange(1,50,1) 
 acc = []
 for k in k_range:
     knn = KNN(n_neighbors = k)
@@ -379,14 +333,9 @@ for k in k_range:
     acc.append(CompareClasses(ytest,y_pred)[1])
 print(max(acc))
 print(np.argmax(acc))
-#0.6981024471173787, 18
-
-tr,te,_,_ = DoKFold(knn,X.values,y,k=200, scaler = RS())
-print(max(te))
-#0.7110862262038073
 
 
-
+#Decision Tree
 from sklearn.tree import DecisionTreeClassifier as DTC
 from sklearn import tree
 
@@ -395,11 +344,9 @@ dtc = DTC(random_state=146, max_depth = 50, min_samples_split = 10)
 dtc.fit(Xtrain,ytrain)
 y_pred = dtc.predict(Xtest)
 CompareClasses(ytest,y_pred)
-#.664558
 
 d_range = np.arange(2,10)
 k=15
-
 train = []
 test = []
 
@@ -408,9 +355,9 @@ for d in d_range:
     tr,te,_,_ = DoKFold(dtc,X.values,y,k)
     train.append(np.mean(tr))
     test.append(np.mean(te))
-
 max(test) #.72094
 
+#plot for max depth
 plt.plot(d_range, train, '-xk', label='Training')
 plt.plot(d_range, test, '-xr', label='Testing')
 plt.xlabel('Max Depth')
@@ -418,53 +365,8 @@ plt.ylabel('Classification Accuracy')
 plt.legend()
 plt.savefig('Max_depth.png')
 
-Xtrain,Xtest,ytrain,ytest = tts(X, y, test_size=0.4, random_state=146)
-ss = SS()
-Xtrain = ss.fit_transform(Xtrain)
-Xtest = ss.transform(Xtest)
 
-dtc = DTC(random_state=146)
-dtc.fit(Xtrain,ytrain)
-y_pred = dtc.predict(Xtest)
-CompareClasses(ytest,y_pred)
-#0.640968
-
-tr,te,_,_ = DoKFold(dtc,X.values,y,k=200, scaler = SS())
-print(max(te))
-#0.7344398340248963 #the highest one out of the decision trees
-
-minmax = mms()
-Xtrain,Xtest,ytrain,ytest = tts(X, y, test_size=0.4, random_state=146)
-Xtrain = minmax.fit_transform(Xtrain)
-Xtest = minmax.transform(Xtest)
-
-dtc = DTC(random_state=146)
-dtc.fit(Xtrain,ytrain)
-y_pred = dtc.predict(Xtest)
-CompareClasses(ytest,y_pred)
-#0.640968
-
-tr,te,_,_ = DoKFold(dtc,X.values,y,k=200, scaler = mms())
-print(max(te))
-#0.7261410788381742
-
-nm = NM()
-Xtrain,Xtest,ytrain,ytest = tts(X,y,test_size=0.4, random_state=146)
-Xtrain = nm.fit_transform(Xtrain)
-Xtest = nm.transform(Xtest)
-
-dtc = DTC(random_state=146)
-dtc.fit(Xtrain,ytrain)
-y_pred = dtc.predict(Xtest)
-CompareClasses(ytest,y_pred)
-#0.626866
-
-tr,te,_,_ = DoKFold(dtc,X.values,y,k=200, scaler = NM())
-print(max(te))
-#0.7261410788381742
-
-
-
+#random forest classifer
 from sklearn.ensemble import RandomForestClassifier as RFC
 
 #random forest 
