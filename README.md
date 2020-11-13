@@ -42,9 +42,12 @@ Finally, I tested the logistic regression with a robust scaler and it produced a
 ## KNN Classification 
 As a second attempt to classify this dataset I ran a K nearest neighbors model validation on this dataset with all the scalers mentioned above. To accomplish this I tested a range of K neighbors to find the best fit for the scaled and unscaled dataset. While looping through, I appended the accuracies and found the maximum accuracy for whichever argument of neighbor that was. The best KNN accuracy was .709. This was achieved through using a MinMaxScaler and 40 neighbors. 
 ### K- Fold Validation 
-I ran a K Fold validation on this same instance of the best KNN accuracy, and I got an accuracy of 
+I ran a K Fold validation on this same instance of the best KNN accuracy, and I got an accuracy of .72293 which is higher than the KNN classification by itself and the highest accuracy I have generated so far
 
 ## Decision Tree Classifier 
+As a third attempt to classify this dataset I ran a Decision Tree classifier on this dataset with all the preprocessing scalers I have been using. I generally found my models to be more accurate when I modified the max depth. The highest accuracy I got was .72094 on the unscaled dataset with K fold validation of 15 and a max depth of 5. Scaling datasets does not appear to affect decision trees that much (simply because of the binary search-like structure of the tree). I also created a graph of the these max depths and the accuracies to demonstrate which max depth I picked and why. 
+#### Image 5: Max Depth Accuracies  
+ 
 
 
 
